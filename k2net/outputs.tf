@@ -40,7 +40,7 @@ output "topaz" {
 output "padparadscha" {
   description = "Public IP and EBS volumes for the padparadscha instance"
   value = {
-    "public_ip" = aws_instance.padparadscha.public_ip,
+    "public_ip" = aws_eip.padparadscha.public_ip,
     "volumes" = {
       "bitwarden" = "/dev/disk/by-id/nvme-Amazon_Elastic_Block_Store_${replace(aws_volume_attachment.bitwarden.volume_id, "-", "")}",
       "heimdall"  = "/dev/disk/by-id/nvme-Amazon_Elastic_Block_Store_${replace(aws_volume_attachment.heimdall.volume_id, "-", "")}",
@@ -53,7 +53,7 @@ output "padparadscha" {
 output "fluorite" {
   description = "Public IP and EBS volumes for the fluorite instance"
   value = {
-    "public_ip" = aws_instance.fluorite.public_ip,
+    "public_ip" = aws_eip.fluorite.public_ip,
     "volumes"   = {}
   }
 }

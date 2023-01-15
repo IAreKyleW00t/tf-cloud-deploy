@@ -65,31 +65,36 @@ resource "aws_ebs_volume" "znc" {
 # Volume attachments
 ##
 resource "aws_volume_attachment" "unifi" {
-  device_name = "/dev/sdf"
-  volume_id   = aws_ebs_volume.unifi.id
-  instance_id = aws_instance.topaz.id
+  device_name                    = "/dev/sdf"
+  volume_id                      = aws_ebs_volume.unifi.id
+  instance_id                    = aws_instance.topaz.id
+  stop_instance_before_detaching = true
 }
 
 resource "aws_volume_attachment" "bitwarden" {
-  device_name = "/dev/sdf"
-  volume_id   = aws_ebs_volume.bitwarden.id
-  instance_id = aws_instance.padparadscha.id
+  device_name                    = "/dev/sdf"
+  volume_id                      = aws_ebs_volume.bitwarden.id
+  instance_id                    = aws_instance.padparadscha.id
+  stop_instance_before_detaching = true
 }
 
 resource "aws_volume_attachment" "heimdall" {
-  device_name = "/dev/sdg"
-  volume_id   = aws_ebs_volume.heimdall.id
-  instance_id = aws_instance.padparadscha.id
+  device_name                    = "/dev/sdg"
+  volume_id                      = aws_ebs_volume.heimdall.id
+  instance_id                    = aws_instance.padparadscha.id
+  stop_instance_before_detaching = true
 }
 
 resource "aws_volume_attachment" "kuma" {
-  device_name = "/dev/sdh"
-  volume_id   = aws_ebs_volume.kuma.id
-  instance_id = aws_instance.padparadscha.id
+  device_name                    = "/dev/sdh"
+  volume_id                      = aws_ebs_volume.kuma.id
+  instance_id                    = aws_instance.padparadscha.id
+  stop_instance_before_detaching = true
 }
 
 resource "aws_volume_attachment" "znc" {
-  device_name = "/dev/sdi"
-  volume_id   = aws_ebs_volume.znc.id
-  instance_id = aws_instance.padparadscha.id
+  device_name                    = "/dev/sdi"
+  volume_id                      = aws_ebs_volume.znc.id
+  instance_id                    = aws_instance.padparadscha.id
+  stop_instance_before_detaching = true
 }
