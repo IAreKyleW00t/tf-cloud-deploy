@@ -16,6 +16,7 @@ resource "aws_instance" "topaz" {
   vpc_security_group_ids = [
     data.aws_security_group.default.id,
     aws_security_group.netclient.id,
+    aws_security_group.netclient_public.id,
     aws_security_group.unifi.id,
     aws_security_group.web.id,
     aws_security_group.ssh.id

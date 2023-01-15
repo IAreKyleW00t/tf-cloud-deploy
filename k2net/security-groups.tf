@@ -109,7 +109,7 @@ resource "aws_security_group_rule" "wireguard_extras" {
   to_port           = 51821
   protocol          = "udp"
   cidr_blocks       = var.additional_netclient_ips
-  security_group_id = aws_security_group.netclient_public.id
+  security_group_id = aws_security_group.netclient.id
   description       = "WireGuard"
 }
 
