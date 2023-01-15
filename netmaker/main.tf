@@ -139,6 +139,16 @@ resource "aws_security_group_rule" "ssh" {
   description       = "SSH"
 }
 
+resource "aws_security_group_rule" "icmp" {
+  type              = "ingress"
+  from_port         = 0
+  to_port           = 0
+  protocol          = "icmp"
+  cidr_blocks       = var.netmaker_allowed_ips
+  security_group_id = aws_security_group.netmaker.id
+  description       = "ICMP"
+}
+
 resource "aws_security_group_rule" "wireguard" {
   type              = "ingress"
   from_port         = split("-", var.netmaker_ports)[0]
