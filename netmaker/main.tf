@@ -217,7 +217,7 @@ resource "aws_dlm_lifecycle_policy" "snapshots" {
       create_rule {
         interval      = 24
         interval_unit = "HOURS"
-        times         = ["20:35"]
+        times         = ["06:35"] # UTC
       }
 
       retain_rule {
