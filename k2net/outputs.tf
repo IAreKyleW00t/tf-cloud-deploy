@@ -50,10 +50,10 @@ output "padparadscha" {
   }
 }
 
-output "fluorite" {
-  description = "Public IP and EBS volumes for the fluorite instance"
+output "pihole" {
+  description = "Public IP and EBS volumes for the Pi-Hole instance"
   value = {
-    "public_ip" = aws_eip.fluorite.public_ip,
+    "public_ip" = aws_eip.pihole.public_ip,
     "volumes"   = {}
   }
 }

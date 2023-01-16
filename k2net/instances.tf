@@ -69,7 +69,7 @@ resource "aws_instance" "padparadscha" {
   })
 }
 
-resource "aws_instance" "fluorite" {
+resource "aws_instance" "pihole" {
   instance_type = "t4g.nano"
   ami           = data.aws_ami.ubuntu.id
   key_name      = local.ec2_ssh_key
@@ -92,11 +92,12 @@ resource "aws_instance" "fluorite" {
     volume_size = 8 # GB
     volume_type = "gp3"
     tags = merge(local.tags, {
-      Name = "fluorite"
+      Name     = "pihole-2",
+      Snapshot = "${var.vpc_name}/true" # Pi-Hole is installed on main volume
     })
   }
 
   tags = merge(local.tags, {
-    Name = "fluorite"
+    Name = "pihole-2"
   })
 }

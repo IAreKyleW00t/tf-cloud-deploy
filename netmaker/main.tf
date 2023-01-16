@@ -93,12 +93,12 @@ resource "aws_instance" "netmaker" {
     volume_size = 8 # GB
     volume_type = "gp3"
     tags = merge(local.tags, {
-      Name = "netmaker"
+      Name = "netmaker-1"
     })
   }
 
   tags = merge(local.tags, {
-    Name   = "netmaker",
+    Name   = "netmaker-1",
     Public = "true"
   })
 }
