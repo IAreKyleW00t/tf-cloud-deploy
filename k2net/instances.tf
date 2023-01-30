@@ -24,7 +24,7 @@ resource "aws_instance" "topaz" {
 
   root_block_device {
     encrypted   = true
-    volume_size = 8 # GB
+    volume_size = 16 # GB
     volume_type = "gp3"
     tags = merge(local.tags, {
       Name = "topaz"
@@ -57,7 +57,7 @@ resource "aws_instance" "padparadscha" {
 
   root_block_device {
     encrypted   = true
-    volume_size = 8 # GB
+    volume_size = 16 # GB
     volume_type = "gp3"
     tags = merge(local.tags, {
       Name = "padparadscha"
@@ -89,7 +89,7 @@ resource "aws_instance" "pihole" {
 
   root_block_device {
     encrypted   = true
-    volume_size = 8 # GB
+    volume_size = 16 # GB
     volume_type = "gp3"
     tags = merge(local.tags, {
       Name     = "pihole-2",

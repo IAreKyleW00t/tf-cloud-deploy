@@ -90,7 +90,7 @@ resource "aws_instance" "netmaker" {
 
   root_block_device {
     encrypted   = true
-    volume_size = 8 # GB
+    volume_size = 16 # GB
     volume_type = "gp3"
     tags = merge(local.tags, {
       Name = "netmaker-1"
