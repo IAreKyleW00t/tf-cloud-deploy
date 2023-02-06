@@ -64,6 +64,19 @@ variable "vpc_public_subnets" {
 }
 
 ##
+# Alarms
+##
+variable "billing_alarm_threshold" {
+  type        = string
+  description = "Value in USD that must be met for alert to be triggered"
+  default     = "20"
+}
+variable "billing_alarm_email" {
+  type        = string
+  description = "Email to be added to billing SNS topic for alerting"
+}
+
+##
 # CDN
 ##
 variable "cdn_domain" {
