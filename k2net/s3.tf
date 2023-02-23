@@ -43,3 +43,18 @@ resource "aws_s3_bucket_policy" "cdn_cloudfront" {
   policy     = data.template_file.cloudfront_s3_policy.rendered
   depends_on = [aws_cloudfront_distribution.cdn]
 }
+
+##
+# S3 Lifecycle Policies
+##
+resource "aws_s3_bucket_lifecycle_configuration" "cdn_cleanup" {
+  bucket = aws_s3_bucket.cdn.id
+
+  rule {
+    id     = "bucket-cleanup"
+    status = "Enabled"
+    abort_incomplete_multipart_upload {
+      days_after_initiation = 1
+    }
+  }
+}
