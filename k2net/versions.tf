@@ -1,4 +1,13 @@
 terraform {
+  cloud {
+    hostname     = "app.terraform.io"
+    organization = "k2net"
+
+    workspaces {
+      name = "k2net"
+    }
+  }
+
   required_providers {
     aws = {
       source  = "hashicorp/aws"
@@ -9,10 +18,6 @@ terraform {
       source  = "cloudflare/cloudflare"
       version = "~> 3.0"
     }
-  }
-
-  # Configured in terraform.tfbackend
-  backend "s3" {
   }
 
   required_version = "~> 1.3"
