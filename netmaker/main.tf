@@ -75,7 +75,7 @@ resource "aws_eip" "netmaker" {
 ##
 resource "aws_instance" "netmaker" {
   instance_type = "t4g.micro"
-  ami           = data.aws_ami.ubuntu.id
+  ami           = var.ec2_ami != "" ? var.ec2_ami : data.aws_ami.ubuntu.id
   key_name      = local.ec2_ssh_key
 
   associate_public_ip_address = true

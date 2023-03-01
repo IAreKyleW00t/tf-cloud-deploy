@@ -97,6 +97,15 @@ variable "cloudfront_certificate_key_algorithm" {
 }
 
 ##
+# EC2 settings
+##
+variable "ec2_ami" {
+  type        = string
+  description = "AMI to use for EC2 instances (defaults to latest Ubuntu 22.04)"
+  default     = ""
+}
+
+##
 # Netmaker
 ##
 variable "netmaker_eip_tag" {

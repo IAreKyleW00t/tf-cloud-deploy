@@ -3,7 +3,7 @@
 ##
 resource "aws_instance" "topaz" {
   instance_type = "t4g.small"
-  ami           = data.aws_ami.ubuntu.id
+  ami           = var.ec2_ami != "" ? var.ec2_ami : data.aws_ami.ubuntu.id
   key_name      = local.ec2_ssh_key
 
   iam_instance_profile = aws_iam_instance_profile.ec2_read_netmaker_secret.name
@@ -39,7 +39,7 @@ resource "aws_instance" "topaz" {
 
 resource "aws_instance" "padparadscha" {
   instance_type = "t4g.micro"
-  ami           = data.aws_ami.ubuntu.id
+  ami           = var.ec2_ami != "" ? var.ec2_ami : data.aws_ami.ubuntu.id
   key_name      = local.ec2_ssh_key
 
   iam_instance_profile = aws_iam_instance_profile.ec2_read_netmaker_secret.name
@@ -71,7 +71,7 @@ resource "aws_instance" "padparadscha" {
 
 resource "aws_instance" "pihole" {
   instance_type = "t4g.nano"
-  ami           = data.aws_ami.ubuntu.id
+  ami           = var.ec2_ami != "" ? var.ec2_ami : data.aws_ami.ubuntu.id
   key_name      = local.ec2_ssh_key
 
   iam_instance_profile = aws_iam_instance_profile.ec2_read_netmaker_secret.name

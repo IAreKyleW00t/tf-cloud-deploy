@@ -64,6 +64,15 @@ variable "vpc_public_subnets" {
 }
 
 ##
+# EC2 settings
+##
+variable "ec2_ami" {
+  type        = string
+  description = "AMI to use for EC2 instances (defaults to latest Ubuntu 22.04)"
+  default     = ""
+}
+
+##
 # Netmaker
 ##
 variable "netmaker_domain" {
