@@ -4,7 +4,7 @@ set -e # exit on any error
 # Install AWS CLI
 apt-get update
 apt-get install -y zip unzip
-curl "https://awscli.amazonaws.com/awscli-exe-linux-aarch64.zip" -o /opt/awscliv2.zip
+curl "https://awscli.amazonaws.com/awscli-exe-linux-$(uname -m).zip" -o /opt/awscliv2.zip
 unzip /opt/awscliv2.zip -d /opt
 /opt/aws/install
 rm /opt/awscliv2.zip

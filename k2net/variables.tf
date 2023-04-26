@@ -100,9 +100,12 @@ variable "cloudfront_certificate_key_algorithm" {
 # EC2 settings
 ##
 variable "ec2_ami" {
-  type        = string
+  type = object({
+    arm64 = string
+    amd64 = string
+  })
   description = "AMI to use for EC2 instances (defaults to latest Ubuntu 22.04)"
-  default     = ""
+  default     = { arm64 = "", amd64 = "" }
 }
 
 ##
@@ -133,6 +136,8 @@ variable "ingress_domain" {
 }
 
 variable "additional_domains" {
-  type        = map(any)
+  type = map(object({
+    proxied = bool
+  }))
   description = "List of additional domains to CNAME to ingress_domain"
 }
