@@ -74,7 +74,7 @@ resource "aws_eip" "netmaker" {
 # EC2 Instances
 ##
 resource "aws_instance" "netmaker" {
-  instance_type = "t4g.micro"
+  instance_type = "t3.micro"
   ami           = var.ec2_ami != "" ? var.ec2_ami : data.aws_ami.ubuntu.id
   key_name      = local.ec2_ssh_key
 
