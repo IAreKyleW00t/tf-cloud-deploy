@@ -29,9 +29,15 @@ variable "ssh_key" {
   default     = "" # No SSH access
 }
 
-variable "ssh_allowed_ips" {
+variable "ssh_allowed_ipv4" {
   type        = list(string)
-  description = "List of IPs (CIDR notation) to allow SSH traffic from"
+  description = "List of IPv4 addresses (CIDR notation) to allow SSH traffic from"
+  default     = []
+}
+
+variable "ssh_allowed_ipv6" {
+  type        = list(string)
+  description = "List of IPv6 addresses (CIDR notation) to allow SSH traffic from"
   default     = []
 }
 
@@ -122,9 +128,14 @@ variable "netmaker_access_key" {
   description = "Access Key for connecting to Netmaker server"
 }
 
-variable "additional_netclient_ips" {
+variable "additional_netclient_ipv4" {
   type        = list(string)
-  description = "List of additional Netclient IPs (in CIDR notation) to allow direct WireGuard traffic from"
+  description = "List of additional Netclient IPv4 addresses (in CIDR notation) to allow direct WireGuard traffic from"
+}
+
+variable "additional_netclient_ipv6" {
+  type        = list(string)
+  description = "List of additional Netclient IPv6 addresses (in CIDR notation) to allow direct WireGuard traffic from"
 }
 
 ##

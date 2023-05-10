@@ -19,9 +19,14 @@ output "additional_domains" {
 ##
 # Netmaker
 ##
-output "additional_netclient_ips" {
-  value       = var.additional_netclient_ips
-  description = "List of additional Netclient IPs (in CIDR notation) to allow direct WireGuard traffic from"
+output "additional_netclient_ipv4" {
+  value       = var.additional_netclient_ipv4
+  description = "List of additional Netclient IPv4 addresses (in CIDR notation) to allow direct WireGuard traffic from"
+}
+
+output "additional_netclient_ipv6" {
+  value       = var.additional_netclient_ipv6
+  description = "List of additional Netclient IPv6 addresses (in CIDR notation) to allow direct WireGuard traffic from"
 }
 
 ##

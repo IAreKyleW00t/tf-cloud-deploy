@@ -29,9 +29,15 @@ variable "ssh_key" {
   default     = "" # No SSH access
 }
 
-variable "ssh_allowed_ips" {
+variable "ssh_allowed_ipv4" {
   type        = list(string)
-  description = "List of IPs (CIDR notation) to allow SSH traffic from"
+  description = "List of IPv4 addresses (CIDR notation) to allow SSH traffic from"
+  default     = []
+}
+
+variable "ssh_allowed_ipv6" {
+  type        = list(string)
+  description = "List of IPv6 addresses (CIDR notation) to allow SSH traffic from"
   default     = []
 }
 
@@ -80,10 +86,16 @@ variable "netmaker_domain" {
   description = "Base domain for Netmaker server"
 }
 
-variable "netmaker_allowed_ips" {
+variable "netmaker_allowed_ipv4" {
   type        = list(string)
-  description = "List of IPs (CIDR notation) to allow Netmaker traffic from"
+  description = "List of IPv4 addresses (CIDR notation) to allow Netmaker traffic from"
   default     = ["0.0.0.0/0"]
+}
+
+variable "netmaker_allowed_ipv6" {
+  type        = list(string)
+  description = "List of IPv6 addresses (CIDR notation) to allow Netmaker traffic from"
+  default     = ["::/0"]
 }
 
 variable "netmaker_ports" {

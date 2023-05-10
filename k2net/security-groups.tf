@@ -50,13 +50,14 @@ resource "aws_security_group" "unifi" {
 # Rules
 ##
 resource "aws_security_group_rule" "ssh" {
-  count = length(var.ssh_allowed_ips) > 0 ? 1 : 0
+  count = length(var.ssh_allowed_ipv4) > 0 ? 1 : 0
 
   type              = "ingress"
   from_port         = 22
   to_port           = 22
   protocol          = "tcp"
-  cidr_blocks       = var.ssh_allowed_ips
+  cidr_blocks       = var.ssh_allowed_ipv4
+  ipv6_cidr_blocks  = var.ssh_allowed_ipv6
   security_group_id = aws_security_group.ssh.id
   description       = "SSH"
 }
@@ -67,6 +68,7 @@ resource "aws_security_group_rule" "http" {
   to_port           = 80
   protocol          = "tcp"
   cidr_blocks       = ["0.0.0.0/0"]
+  ipv6_cidr_blocks  = ["::/0"]
   security_group_id = aws_security_group.web.id
   description       = "HTTP"
 }
@@ -77,6 +79,7 @@ resource "aws_security_group_rule" "https" {
   to_port           = 443
   protocol          = "tcp"
   cidr_blocks       = ["0.0.0.0/0"]
+  ipv6_cidr_blocks  = ["::/0"]
   security_group_id = aws_security_group.web.id
   description       = "HTTPS"
 }
@@ -87,6 +90,7 @@ resource "aws_security_group_rule" "netmaker" {
   to_port           = 51821
   protocol          = "udp"
   cidr_blocks       = ["${data.aws_eip.netmaker.public_ip}/32"]
+  ipv6_cidr_blocks  = data.aws_instance.netmaker.ipv6_addresses
   security_group_id = aws_security_group.netclient.id
   description       = "Netmaker"
 }
@@ -102,13 +106,14 @@ resource "aws_security_group_rule" "wireguard" {
 }
 
 resource "aws_security_group_rule" "wireguard_extras" {
-  count = length(var.additional_netclient_ips) > 0 ? 1 : 0
+  count = length(var.additional_netclient_ipv4) > 0 ? 1 : 0
 
   type              = "ingress"
   from_port         = 51821
   to_port           = 51821
   protocol          = "udp"
-  cidr_blocks       = var.additional_netclient_ips
+  cidr_blocks       = var.additional_netclient_ipv4
+  ipv6_cidr_blocks  = var.additional_netclient_ipv6
   security_group_id = aws_security_group.netclient.id
   description       = "WireGuard"
 }
@@ -119,6 +124,7 @@ resource "aws_security_group_rule" "wireguard_public" {
   to_port           = 51821
   protocol          = "udp"
   cidr_blocks       = ["0.0.0.0/0"]
+  ipv6_cidr_blocks  = ["::/0"]
   security_group_id = aws_security_group.netclient_public.id
   description       = "WireGuard"
 }
@@ -129,6 +135,7 @@ resource "aws_security_group_rule" "unifi_stun" {
   to_port           = 3478
   protocol          = "udp"
   cidr_blocks       = ["0.0.0.0/0"]
+  ipv6_cidr_blocks  = ["::/0"]
   security_group_id = aws_security_group.unifi.id
   description       = "UniFi STUN"
 }
@@ -139,6 +146,7 @@ resource "aws_security_group_rule" "unifi_control" {
   to_port           = 8080
   protocol          = "tcp"
   cidr_blocks       = ["0.0.0.0/0"]
+  ipv6_cidr_blocks  = ["::/0"]
   security_group_id = aws_security_group.unifi.id
   description       = "UniFi Control"
 }
@@ -149,6 +157,7 @@ resource "aws_security_group_rule" "unifi_api" {
   to_port           = 8443
   protocol          = "tcp"
   cidr_blocks       = ["0.0.0.0/0"]
+  ipv6_cidr_blocks  = ["::/0"]
   security_group_id = aws_security_group.unifi.id
   description       = "UniFi API"
 }
@@ -159,6 +168,7 @@ resource "aws_security_group_rule" "unifi_http" {
   to_port           = 8880
   protocol          = "tcp"
   cidr_blocks       = ["0.0.0.0/0"]
+  ipv6_cidr_blocks  = ["::/0"]
   security_group_id = aws_security_group.unifi.id
   description       = "UniFi HTTP"
 }
@@ -169,6 +179,7 @@ resource "aws_security_group_rule" "unifi_https" {
   to_port           = 8843
   protocol          = "tcp"
   cidr_blocks       = ["0.0.0.0/0"]
+  ipv6_cidr_blocks  = ["::/0"]
   security_group_id = aws_security_group.unifi.id
   description       = "UniFi HTTPS"
 }
@@ -179,6 +190,7 @@ resource "aws_security_group_rule" "unifi_speedtest" {
   to_port           = 6789
   protocol          = "tcp"
   cidr_blocks       = ["0.0.0.0/0"]
+  ipv6_cidr_blocks  = ["::/0"]
   security_group_id = aws_security_group.unifi.id
   description       = "UniFi SpeedTest"
 }
@@ -189,6 +201,7 @@ resource "aws_security_group_rule" "unifi_discovery" {
   to_port           = 10001
   protocol          = "udp"
   cidr_blocks       = ["0.0.0.0/0"]
+  ipv6_cidr_blocks  = ["::/0"]
   security_group_id = aws_security_group.unifi.id
   description       = "UniFi Discovery"
 }
@@ -199,6 +212,7 @@ resource "aws_security_group_rule" "unifi_l2_discovery" {
   to_port           = 1900
   protocol          = "udp"
   cidr_blocks       = ["0.0.0.0/0"]
+  ipv6_cidr_blocks  = ["::/0"]
   security_group_id = aws_security_group.unifi.id
   description       = "UniFi L2 Discovery"
 }

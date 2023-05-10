@@ -54,6 +54,14 @@ data "aws_eip" "netmaker" {
   }
 }
 
+# EC2 Instances
+data "aws_instance" "netmaker" {
+  filter {
+    name   = "tag:Name"
+    values = ["netmaker-1"]
+  }
+}
+
 ##
 # Default Security Groups
 ##

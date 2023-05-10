@@ -33,11 +33,21 @@ resource "aws_iam_role_policy" "dlm_lifecycle" {
 ##
 # Cloudflare DNS
 ##
-resource "cloudflare_record" "netmaker" {
+resource "cloudflare_record" "netmaker4" {
   zone_id         = data.cloudflare_zone.netmaker.id
   name            = "*.${var.netmaker_domain}"
   value           = aws_eip.netmaker.public_ip
   type            = "A"
+  allow_overwrite = true
+}
+
+resource "cloudflare_record" "netmaker6" {
+  for_each = toset(aws_instance.netmaker.ipv6_addresses)
+
+  zone_id         = data.cloudflare_zone.netmaker.id
+  name            = "*.${var.netmaker_domain}"
+  value           = each.key
+  type            = "AAAA"
   allow_overwrite = true
 }
 
@@ -48,12 +58,15 @@ module "netmaker_vpc" {
   source  = "terraform-aws-modules/vpc/aws"
   version = "~> 3.0"
 
-  name = var.vpc_name
-  cidr = var.vpc_cidr
+  name                   = var.vpc_name
+  cidr                   = var.vpc_cidr
+  enable_ipv6            = true
+  create_egress_only_igw = false # don't let IPv6 traffic leak out of private subnets
 
   azs             = var.vpc_azs
   private_subnets = var.vpc_private_subnets
   public_subnets  = var.vpc_public_subnets
+
 
   tags = local.tags
 }
@@ -128,13 +141,14 @@ resource "aws_security_group" "netmaker" {
 # Rules
 ##
 resource "aws_security_group_rule" "ssh" {
-  count = length(var.ssh_allowed_ips) > 0 ? 1 : 0
+  count = length(var.ssh_allowed_ipv4) > 0 ? 1 : 0
 
   type              = "ingress"
   from_port         = 22
   to_port           = 22
   protocol          = "tcp"
-  cidr_blocks       = var.ssh_allowed_ips
+  cidr_blocks       = var.ssh_allowed_ipv4
+  ipv6_cidr_blocks  = var.ssh_allowed_ipv6
   security_group_id = aws_security_group.ssh.id
   description       = "SSH"
 }
@@ -144,7 +158,8 @@ resource "aws_security_group_rule" "icmp" {
   from_port         = 0
   to_port           = 0
   protocol          = "icmp"
-  cidr_blocks       = var.netmaker_allowed_ips
+  cidr_blocks       = var.netmaker_allowed_ipv4
+  ipv6_cidr_blocks  = var.netmaker_allowed_ipv6
   security_group_id = aws_security_group.netmaker.id
   description       = "ICMP"
 }
@@ -154,7 +169,8 @@ resource "aws_security_group_rule" "wireguard" {
   from_port         = split("-", var.netmaker_ports)[0]
   to_port           = split("-", var.netmaker_ports)[1]
   protocol          = "udp"
-  cidr_blocks       = var.netmaker_allowed_ips
+  cidr_blocks       = var.netmaker_allowed_ipv4
+  ipv6_cidr_blocks  = var.netmaker_allowed_ipv6
   security_group_id = aws_security_group.netmaker.id
   description       = "WireGuard"
 }
@@ -164,7 +180,8 @@ resource "aws_security_group_rule" "http" {
   from_port         = 80
   to_port           = 80
   protocol          = "tcp"
-  cidr_blocks       = var.netmaker_allowed_ips
+  cidr_blocks       = var.netmaker_allowed_ipv4
+  ipv6_cidr_blocks  = var.netmaker_allowed_ipv6
   security_group_id = aws_security_group.netmaker.id
   description       = "HTTP"
 }
@@ -174,7 +191,8 @@ resource "aws_security_group_rule" "https" {
   from_port         = 443
   to_port           = 443
   protocol          = "tcp"
-  cidr_blocks       = var.netmaker_allowed_ips
+  cidr_blocks       = var.netmaker_allowed_ipv4
+  ipv6_cidr_blocks  = var.netmaker_allowed_ipv6
   security_group_id = aws_security_group.netmaker.id
   description       = "HTTPS"
 }

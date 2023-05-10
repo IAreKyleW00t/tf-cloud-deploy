@@ -6,17 +6,28 @@ resource "cloudflare_record" "domains" {
 
   zone_id         = data.cloudflare_zone.dns.id
   name            = each.key
-  value           = cloudflare_record.topaz.hostname
+  value           = var.ingress_domain
   type            = "CNAME"
   proxied         = each.value.proxied
   allow_overwrite = true
 }
 
-resource "cloudflare_record" "topaz" {
+resource "cloudflare_record" "topaz4" {
   zone_id         = data.cloudflare_zone.dns.id
   name            = var.ingress_domain
   value           = aws_eip.topaz.public_ip
   type            = "A"
+  proxied         = false # not supported
+  allow_overwrite = true
+}
+
+resource "cloudflare_record" "topaz6" {
+  for_each = toset(aws_instance.topaz.ipv6_addresses)
+
+  zone_id         = data.cloudflare_zone.dns.id
+  name            = var.ingress_domain
+  value           = each.key
+  type            = "AAAA"
   proxied         = false # not supported
   allow_overwrite = true
 }
