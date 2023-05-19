@@ -69,6 +69,16 @@ variable "vpc_public_subnets" {
   description = "List of public subnet CIDR ranges - Must match the same number of AZs"
 }
 
+variable "vpc_private_ipv6_prefixes" {
+  type        = list(number)
+  description = "List of private IPv6 CIDR prefixes - Must match the same number of AZs"
+}
+
+variable "vpc_public_ipv6_prefixes" {
+  type        = list(number)
+  description = "List of public IPv6 CIDR prefixes - Must match the same number of AZs"
+}
+
 ##
 # Alarms
 ##
