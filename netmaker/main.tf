@@ -176,6 +176,20 @@ resource "aws_security_group_rule" "stun" {
   description       = "STUN"
 }
 
+resource "aws_security_group_rule" "turn" {
+  for_each = {
+    for proto in ["tcp", "udp"] : proto => null
+  }
+  type              = "ingress"
+  from_port         = 3479
+  to_port           = 3479
+  protocol          = each.key
+  cidr_blocks       = var.netmaker_allowed_ipv4
+  ipv6_cidr_blocks  = var.netmaker_allowed_ipv6
+  security_group_id = aws_security_group.netmaker.id
+  description       = "TURN"
+}
+
 resource "aws_security_group_rule" "wireguard" {
   type              = "ingress"
   from_port         = split("-", var.netmaker_ports)[0]
