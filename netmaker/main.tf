@@ -165,6 +165,17 @@ resource "aws_security_group_rule" "icmp" {
   description       = "ICMP"
 }
 
+resource "aws_security_group_rule" "stun" {
+  type              = "ingress"
+  from_port         = 3478
+  to_port           = 3478
+  protocol          = "udp"
+  cidr_blocks       = var.netmaker_allowed_ipv4
+  ipv6_cidr_blocks  = var.netmaker_allowed_ipv6
+  security_group_id = aws_security_group.netmaker.id
+  description       = "STUN"
+}
+
 resource "aws_security_group_rule" "wireguard" {
   type              = "ingress"
   from_port         = split("-", var.netmaker_ports)[0]
